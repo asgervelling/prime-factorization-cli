@@ -36,17 +36,19 @@ def _render_counter(data: Union[Counter, dict]) -> str:
     """
     latex = ''
     for base, exp in data.items():
-        latex += f'{base}^{exp} \cdot '
+        latex += f'{base}{superscript(str(exp))} ⋅ '
 
-    # Remove the last ' \cdot '
-    return latex[:-7]
+    # Remove the last ' ⋅ '
+    return latex[:-3]
 
 
 def _render_tree(data: Node) -> str:
     ftree = str(factor_tree(data.value))
-    return (
-        ftree.replace('\\', '\setminus')
-        .replace(' ', '\ ')
-        .replace('_', '\ ')
-        .replace('\n', '    \\\\\n')
-    )
+    return ftree
+
+
+def superscript(x):
+    normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-=()"
+    super = "ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻᵃᵇᶜᵈᵉᶠᵍʰᶦʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾"
+    mapping = x.maketrans(''.join(normal), ''.join(super))
+    return x.translate(mapping)

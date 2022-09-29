@@ -3,6 +3,7 @@ from collections import Counter
 from binarytree import Node
 
 import latex
+import plaintext
 from tree import factor_tree
 
 
@@ -40,7 +41,7 @@ def _count_exp_recur(node: Node, acc: list) -> Counter:
     return c
 
 
-def prime_factorization(n: int) -> str:
+def prime_factorization(n: int, human_readable=False) -> str:
     """Prime factorization of n
 
     m = p1^a1 * p2^a2 * ... * pk^ak
@@ -51,5 +52,9 @@ def prime_factorization(n: int) -> str:
     """
     ftree = factor_tree(n)
     exponents = count_exponents(ftree)
-    _latex = latex.render(exponents)
-    return f'pf({n}) = {_latex}'
+    if human_readable:
+        expression = plaintext.render(exponents)
+    else:
+        expression = latex.render(exponents)
+
+    return f'pf({n}) = {expression}'
